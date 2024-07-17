@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/http/httptrace"
 	"net/url"
+	"runtime/debug"
 	"strconv"
 	"strings"
 
@@ -70,6 +71,7 @@ func (rt *roundtripper) RoundTrip(r *http.Request) (*http.Response, error) {
 		if seg == nil {
 			resp, err = rt.Base.RoundTrip(r)
 			logger.Warnf("failed to record HTTP transaction: segment cannot be found.")
+			debug.PrintStack()
 			return err
 		}
 
